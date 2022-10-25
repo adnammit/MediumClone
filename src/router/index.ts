@@ -3,6 +3,7 @@ import Home from '@/views/Home.vue'
 import Login from '@/views/Login.vue'
 import Register from '@/views/Register.vue'
 import Settings from '@/views/Settings.vue'
+import Profile from '@/views/Profile.vue'
 import { navigationGuard, LoginCallback } from '@okta/okta-vue'
 
 const router = createRouter({
@@ -35,6 +36,14 @@ const router = createRouter({
       path: '/settings',
       name: 'settings',
       component: Settings,
+      meta: {
+        requiresAuth: true
+      }
+    },
+    {
+      path: '/:username',
+      name: 'profile',
+      component: Profile,
       meta: {
         requiresAuth: true
       }

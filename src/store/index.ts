@@ -1,5 +1,6 @@
 import type { InjectionKey } from 'vue'
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
+import ArticleModule from "@/store/modules/article";
 
 interface User {
 	email: string,
@@ -26,7 +27,8 @@ export const key: InjectionKey<Store<State>> = Symbol();
 
 export const store = createStore<State>({
 	modules: {
-		user: UserModule
+		user: UserModule,
+		articles: ArticleModule
 	},
 	state: { title: 'Hello world!' } as State,
 	mutations: {

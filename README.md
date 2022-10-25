@@ -1,6 +1,7 @@
-# Vue3 Boilerplate
+# Medium Clone
 
-Here is a starting place for creating a Vue3 App with all that stuff you like, like Vuex, Vuetify, TS and Okta login
+Medium article clone based on [this tutorial](https://www.educative.io/courses/medium-clone-vue3)
+This is a starting place for creating a Vue3 App with all that stuff you like, like Vuex, Vuetify, TS and Okta login
 
 ## Quickstart
 ```sh
@@ -38,6 +39,8 @@ To protect a page, add the `requiresAuth` attribute to its route in `router/inde
 * lazy-loading in router/index.ts
 * get knowing about CompositionAPI
 * add Vuetify
+* footer cuts off content
+* you didn't implement the post api or create new post functionality
 
 ## Done
 * absolute component paths

@@ -6,14 +6,13 @@
 	</div>
 </template>
 <script lang="ts">
-import { defineComponent } from 'vue'
 import { RouterView } from 'vue-router'
 import { oktaAuth } from '@/auth'
 import { store } from '@/store'
 import NavBar from '@/components/NavBar.vue'
 import Footer from '@/components/Footer.vue'
 
-export default defineComponent({
+export default {
 	name: 'App',
 	components: {
 		NavBar,
@@ -33,7 +32,7 @@ export default defineComponent({
 			}
 		}
 	}
-})
+}
 </script>
 
 <style scoped>
