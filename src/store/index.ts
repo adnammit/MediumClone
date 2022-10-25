@@ -1,11 +1,10 @@
 import type { InjectionKey } from 'vue'
 import { createStore, Store, useStore as baseUseStore } from 'vuex'
-import { api, setToken, clearToken } from '@/store/api';
 
 interface User {
 	email: string,
 	username: string,
-	password: string
+	fullName: string
 }
 
 const UserModule = {
@@ -13,42 +12,8 @@ const UserModule = {
 	state: (): User => ({
 		email: '',
 		username: '',
-		password: ''
-	}),
-	getters: {
-		username(state: State) {
-			return (state.user && state.user.username) || null;
-		}
-	},
-	mutations: {
-		setUser(state: State, payload: any) {
-			state.user = payload;
-		}
-	},
-	actions: {
-		async loginUser (commit: any , payload: { email: string, password: string }) {
-			clearToken();
-			try {
-				const email = payload.email;
-				const password = payload.password;
-				const response = await api.post('/users/login', {
-					user: {email, password}
-				});
-
-				if (response.data.user) {
-					setToken(response.data.user.token);
-					commit('setUser', response.data.user);
-				}
-			} catch(e) {
-				console.error(e);
-				throw e;
-			}
-		},
-		async getUser(commit: any) {
-			const user = await api.get("/user");
-			commit("setUser", user);
-		}
-	}
+		fullName: ''
+	})
 }
 
 export interface State {
@@ -64,6 +29,27 @@ export const store = createStore<State>({
 		user: UserModule
 	},
 	state: { title: 'Hello world!' } as State,
+	mutations: {
+		setUser(state: State, payload: any) {
+			const user = {
+				email: payload.email,
+				username: payload.preferred_username,
+				fullName: payload.name
+			} as User
+			state.user = user;
+		}
+	},
+	getters: {
+		username(state: State) {
+			return (state.user && state.user.username) || null
+		},
+		fullName(state: State) {
+			return (state.user && state.user.fullName) || null
+		},
+		isUserAuthenticated(state: State) {
+			return !!state.user && state.user.username
+		}
+	}
 })
 
 // define a useStore function to use across the app

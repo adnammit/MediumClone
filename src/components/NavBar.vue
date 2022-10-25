@@ -16,43 +16,35 @@
 						<i class="ion-gear-a"></i>&nbsp;Settings
 					</router-link>
 				</li>
-				<!-- <li class="nav-item">
-					<button v-if='authState && authState.isAuthenticated' v-on:click='logout' id='logout-button'> Logout </button>
-					<button v-else v-on:click='login' id='login-button'> Login </button>
-				</li> -->
-
-				<li v-if="username == null" class="nav-item">
-					<router-link class="nav-link" to="/register"> Register </router-link>
-				</li>
-				<li v-if="username" class="nav-item">
+				<li v-if="isAuthenticated" class="nav-item">
 					<router-link class="nav-link" :to="`/@${username}`">
 						{{ username }}
 					</router-link>
+					<div class="nav-link" @click="logout"> Logout </div>
+				</li>
+				<li v-else class="nav-item">
+					<div class="nav-link" @click="login"> Login </div>
 				</li>
 			</ul>
 		</div>
 	</nav>
 </template>
+
 <script lang="ts">
+import { defineComponent } from 'vue'
+import { oktaAuth } from '@/auth'
+import { store } from '@/store'
 
-// import { useAuth } from '@okta/okta-vue';
-
-// const auth = useAuth();
-
-// const login = async () => {
-// 	await auth.signInWithRedirect()
-// }
-
-// const logout = async () => {
-// 	await auth.signOut()
-// }
-
-
-export default {
+export default defineComponent({
+	name: 'NavBar',
 	computed: {
-		username() {
-			return this.$store.getters["users/username"];
-		}
+		username: () => store.getters.username,
+		isAuthenticated: () => store.getters.isUserAuthenticated
 	},
-};
+	setup() {
+		const login = () => oktaAuth.signInWithRedirect()
+		const logout = () => oktaAuth.signOut()
+		return { login, logout }
+	}
+})
 </script>
